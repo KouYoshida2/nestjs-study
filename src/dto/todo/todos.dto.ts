@@ -18,6 +18,10 @@ export class CreateTodoDto {
 
 export class UpdateTodoDto {
   @IsString()
+  @IsNotEmpty()
+  id: string;
+
+  @IsString()
   @IsOptional()
   title: string;
 
@@ -28,4 +32,16 @@ export class UpdateTodoDto {
   @IsEnum(TodoStatus)
   @IsOptional()
   status: keyof typeof TodoStatus;
+}
+
+export class DeleteTodoDto {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
+}
+
+export class GetTodoDto {
+  @IsString()
+  @IsNotEmpty()
+  id: string;
 }

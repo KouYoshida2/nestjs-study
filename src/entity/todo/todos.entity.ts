@@ -2,6 +2,7 @@ import {
   BaseEntity,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -13,7 +14,7 @@ export class TODOEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'char', nullable: false })
+  @Column({ type: 'text', nullable: false })
   title: string;
 
   @Column({ type: 'enum', enum: TodoStatus })
@@ -29,4 +30,7 @@ export class TODOEntity extends BaseEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @DeleteDateColumn()
+  deleted_at: Date;
 }

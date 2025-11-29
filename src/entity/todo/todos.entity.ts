@@ -18,9 +18,9 @@ export class TODOEntity extends BaseEntity {
   title: string;
 
   @Column({ type: 'enum', enum: TodoStatus })
-  status: keyof typeof TodoStatus;
+  status: (typeof TodoStatus)[keyof typeof TodoStatus];
 
-  @Column({ type: 'date' })
+  @Column({ type: 'date', nullable: true })
   dueOn: Date;
 
   @CreateDateColumn({

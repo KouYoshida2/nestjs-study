@@ -4,10 +4,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { TodoStatus } from './status.enum';
+import { UserEntity } from '../user/users.entity';
 
 @Entity('todos')
 export class TODOEntity extends BaseEntity {
@@ -33,4 +35,7 @@ export class TODOEntity extends BaseEntity {
 
   @DeleteDateColumn()
   deleted_at: Date;
+
+  @ManyToOne(() => UserEntity, (user) => user.todos)
+  user: UserEntity;
 }

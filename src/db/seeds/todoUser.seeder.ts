@@ -1,6 +1,7 @@
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 import { DataSource } from 'typeorm';
 import { TODOEntity } from '../../entity/todo/todos.entity';
+import { UserEntity } from '../../entity/user/users.entity';
 
 export default class TodoSeeder implements Seeder {
   /**
@@ -14,17 +15,13 @@ export default class TodoSeeder implements Seeder {
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
-    // const repository = dataSource.getRepository(TODOEntity);
-    // await repository.insert([
-    //   {
-    //     status: 'completed' as any,
-    //   },
-    // ]);
-
-    // ---------------------------------------------------
-
+    const userFactory = factoryManager.get(UserEntity);
     const todoFactory = factoryManager.get(TODOEntity);
-    // save 5 factory generated entities, to the database
-    await todoFactory.saveMany(10);
+
+    const users = await userFactory.saveMany(5);
+
+    users.forEach(async (user) => {
+      await todoFactory.saveMany(5, { user });
+    });
   }
 }

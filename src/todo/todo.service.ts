@@ -3,11 +3,13 @@ import {
   CreateTodoDto,
   DeleteTodoDto,
   GetTodoDto,
+  GetTodoListDto,
   UpdateTodoDto,
 } from '../dto/todo/todos.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TODOEntity } from '../entity/todo/todos.entity';
 import { Repository } from 'typeorm';
+import { TodoStatus } from '../entity/todo/status.enum';
 
 @Injectable()
 export class TodosService {
@@ -30,16 +32,23 @@ export class TodosService {
   async create(todo: CreateTodoDto) {
     const result = await this.todosRepository.insert({
       title: todo.title,
-      status: todo.status,
+      status: TodoStatus[todo.status],
       dueOn: todo.dueOn,
     });
 
     return result;
   }
 
-  async getAll() {
+  async getAll(query: GetTodoListDto) {
+    const { size: sizeParam, page: pageParam } = query;
+
+    const size = sizeParam ?? 10;
+    const page = pageParam ?? 1;
+
     const result = this.todosRepository.find({
       where: { deleted_at: undefined },
+      skip: (page - 1) * size,
+      take: size,
     });
     return result;
   }
@@ -50,7 +59,7 @@ export class TodosService {
     });
 
     if (todo.status) {
-      result.status = todo.status;
+      result.status = TodoStatus[todo.status];
     }
 
     if (todo.dueOn) {

@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsOptional, IsString, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsEnum,
+  isNumber,
+  IsNumber,
+} from 'class-validator';
 import { TODOEntity } from '../../entity/todo/todos.entity';
 import { TodoStatus } from '../../entity/todo/status.enum';
 
@@ -44,4 +51,14 @@ export class GetTodoDto {
   @IsString()
   @IsNotEmpty()
   id: string;
+}
+
+export class GetTodoListDto {
+  @IsNumber()
+  @IsOptional()
+  page?: number;
+
+  @IsOptional()
+  @IsNumber()
+  size?: number;
 }

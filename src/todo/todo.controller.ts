@@ -7,6 +7,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Req,
 } from '@nestjs/common';
 import type { Request } from 'express';
@@ -14,6 +15,7 @@ import {
   CreateTodoDto,
   DeleteTodoDto,
   GetTodoDto,
+  GetTodoListDto,
   UpdateTodoDto,
 } from '../dto/todo/todos.dto';
 import { TodosService } from './todo.service';
@@ -22,14 +24,14 @@ import { TodosService } from './todo.service';
 export class TodoController {
   constructor(private todoService: TodosService) {}
 
+  @Get('list')
+  async getList(@Query() query: GetTodoListDto) {
+    return await this.todoService.getAll(query);
+  }
+
   @Get(':id')
   async getOne(@Param() params: GetTodoDto) {
     return this.todoService.get(params);
-  }
-
-  @Get('list')
-  async getList() {
-    return await this.todoService.getAll();
   }
 
   @Post('create')

@@ -1,14 +1,13 @@
 import {
   BaseEntity,
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 import { TODOEntity } from '../todo/todos.entity';
+import { CompanyEntity } from '../company/companies.entity';
 
 @Entity('users')
 export class UserEntity extends BaseEntity {
@@ -20,4 +19,9 @@ export class UserEntity extends BaseEntity {
 
   @OneToMany(() => TODOEntity, (todo) => todo.user)
   todos: TODOEntity[];
+
+  @ManyToOne(() => CompanyEntity, (company) => company.users, {
+    nullable: true,
+  })
+  company: CompanyEntity;
 }

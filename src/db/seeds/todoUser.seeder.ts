@@ -21,10 +21,10 @@ export default class TodoSeeder implements Seeder {
     const companyFactory = factoryManager.get(CompanyEntity);
 
     const users = await userFactory.saveMany(5);
+    const companies = await companyFactory.saveMany(5, { users });
 
-    users.forEach(async (user) => {
-      await todoFactory.saveMany(5, { user });
-      await companyFactory.saveMany(1, { users: [user] });
+    companies.forEach(async (company, i) => {
+      await todoFactory.saveMany(5, { user: users[i] });
     });
   }
 }

@@ -10,6 +10,8 @@ import {
 } from 'typeorm';
 import { TodoStatus } from './status.enum';
 import { UserEntity } from '../user/users.entity';
+import { CompanyEntity } from '../company/companies.entity';
+import { CreateCompanyEntity1764671769736 } from '../../db/migrations/1764671769736-CreateCompanyEntity';
 
 @Entity('todos')
 export class TODOEntity extends BaseEntity {
@@ -38,4 +40,7 @@ export class TODOEntity extends BaseEntity {
 
   @ManyToOne(() => UserEntity, (user) => user.todos)
   user: UserEntity;
+
+  @ManyToOne(() => CompanyEntity, (company) => company.todos)
+  company: CreateCompanyEntity1764671769736;
 }
